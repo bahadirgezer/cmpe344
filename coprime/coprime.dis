@@ -1,0 +1,46 @@
+
+coprime.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00010094 <gcd>:
+   10094:	00050a63          	beqz	a0,100a8 <gcd_end>
+   10098:	00050293          	mv	t0,a0
+   1009c:	02a5e533          	rem	a0,a1,a0
+   100a0:	00028593          	mv	a1,t0
+   100a4:	ff1ff06f          	j	10094 <gcd>
+
+000100a8 <gcd_end>:
+   100a8:	00058513          	mv	a0,a1
+   100ac:	00100593          	li	a1,1
+   100b0:	00b50463          	beq	a0,a1,100b8 <load_res>
+   100b4:	00200513          	li	a0,2
+
+000100b8 <load_res>:
+   100b8:	00008067          	ret
+
+000100bc <coprime>:
+   100bc:	00008393          	mv	t2,ra
+
+000100c0 <coprime_loop>:
+   100c0:	00042503          	lw	a0,0(s0)
+   100c4:	00442583          	lw	a1,4(s0)
+   100c8:	fcdff0ef          	jal	ra,10094 <gcd>
+   100cc:	00a42423          	sw	a0,8(s0)
+   100d0:	00c40413          	addi	s0,s0,12
+   100d4:	fe9446e3          	blt	s0,s1,100c0 <coprime_loop>
+   100d8:	00038093          	mv	ra,t2
+   100dc:	00008067          	ret
+
+000100e0 <_start>:
+   100e0:	00001417          	auipc	s0,0x1
+   100e4:	02840413          	addi	s0,s0,40 # 11108 <__DATA_BEGIN__>
+   100e8:	00700493          	li	s1,7
+   100ec:	00c00293          	li	t0,12
+   100f0:	025484b3          	mul	s1,s1,t0
+   100f4:	008484b3          	add	s1,s1,s0
+   100f8:	00008e13          	mv	t3,ra
+   100fc:	fc1ff0ef          	jal	ra,100bc <coprime>
+   10100:	000e0093          	mv	ra,t3
+   10104:	00008067          	ret
