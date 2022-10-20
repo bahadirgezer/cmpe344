@@ -1,0 +1,28 @@
+
+fibonacci.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00010094 <_start>:
+   10094:	00001297          	auipc	t0,0x1
+   10098:	04428293          	addi	t0,t0,68 # 110d8 <__DATA_BEGIN__>
+   1009c:	00a00313          	li	t1,10
+   100a0:	00000393          	li	t2,0
+   100a4:	00100e13          	li	t3,1
+   100a8:	0072a023          	sw	t2,0(t0)
+   100ac:	00428293          	addi	t0,t0,4
+   100b0:	01c2a023          	sw	t3,0(t0)
+
+000100b4 <LOOP>:
+   100b4:	02030063          	beqz	t1,100d4 <DONE>
+   100b8:	007e0eb3          	add	t4,t3,t2
+   100bc:	00428293          	addi	t0,t0,4
+   100c0:	01d2a023          	sw	t4,0(t0)
+   100c4:	000e0393          	mv	t2,t3
+   100c8:	000e8e13          	mv	t3,t4
+   100cc:	fff30313          	addi	t1,t1,-1
+   100d0:	fe5ff06f          	j	100b4 <LOOP>
+
+000100d4 <DONE>:
+   100d4:	0000006f          	j	100d4 <DONE>
