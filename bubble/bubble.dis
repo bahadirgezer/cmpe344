@@ -1,0 +1,53 @@
+
+bubble.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00010094 <_start>:
+   10094:	00000313          	li	t1,0
+   10098:	00000f93          	li	t6,0
+   1009c:	00001417          	auipc	s0,0x1
+   100a0:	07040413          	addi	s0,s0,112 # 1110c <__DATA_BEGIN__>
+   100a4:	00040493          	mv	s1,s0
+
+000100a8 <COUNTER_LOOP>:
+   100a8:	0004a383          	lw	t2,0(s1)
+   100ac:	00038863          	beqz	t2,100bc <INIT>
+   100b0:	001f8f93          	addi	t6,t6,1
+   100b4:	00448493          	addi	s1,s1,4
+   100b8:	ff1ff06f          	j	100a8 <COUNTER_LOOP>
+
+000100bc <INIT>:
+   100bc:	ffff8f93          	addi	t6,t6,-1
+
+000100c0 <OUTER_LOOP>:
+   100c0:	05f30463          	beq	t1,t6,10108 <DONE>
+   100c4:	00030393          	mv	t2,t1
+   100c8:	00040293          	mv	t0,s0
+   100cc:	00c0006f          	j	100d8 <INNER_LOOP>
+
+000100d0 <OUTER_LOOP_HELPER>:
+   100d0:	00130313          	addi	t1,t1,1
+   100d4:	fedff06f          	j	100c0 <OUTER_LOOP>
+
+000100d8 <INNER_LOOP>:
+   100d8:	fff38ce3          	beq	t2,t6,100d0 <OUTER_LOOP_HELPER>
+   100dc:	00428e13          	addi	t3,t0,4
+   100e0:	0002ae83          	lw	t4,0(t0)
+   100e4:	000e2f03          	lw	t5,0(t3)
+   100e8:	01eed463          	bge	t4,t5,100f0 <SWAP>
+   100ec:	01eec863          	blt	t4,t5,100fc <INNER_LOOP_HELPER>
+
+000100f0 <SWAP>:
+   100f0:	01e2a023          	sw	t5,0(t0)
+   100f4:	01de2023          	sw	t4,0(t3)
+   100f8:	0040006f          	j	100fc <INNER_LOOP_HELPER>
+
+000100fc <INNER_LOOP_HELPER>:
+   100fc:	00428293          	addi	t0,t0,4
+   10100:	00138393          	addi	t2,t2,1
+   10104:	fd5ff06f          	j	100d8 <INNER_LOOP>
+
+00010108 <DONE>:
+   10108:	00000013          	nop

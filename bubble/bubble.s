@@ -50,5 +50,3 @@ INNER_LOOP_HELPER:
 
 DONE: 
   add x0, x0, 0
-
-âˆ
